@@ -45,7 +45,7 @@
   <div id="mensagem" class="hidden">
     <h2 id="bemVinda"></h2>
     <p>Escolha uma música 🎵</p>
-    <button class="music-option" onclick="tocarMusica('musica1.mp3')">Música 1</button>
+    <button class="music-option" onclick="tocarMusica('musica1.mp3.mp3')">Música 1</button>
     <button class="music-option" onclick="tocarMusica('musica2.mp3')">Música 2</button>
     <button class="music-option" onclick="tocarMusica('musica3.mp3')">Música 3</button>
     <div id="emoji">💃🕺✨</div>
