@@ -2,83 +2,148 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Surpresa para Isabelle 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pé de Fava</title>
   <style>
     body {
-      text-align: center;
+      margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #111;
+      background: #F5E6D3;
+      color: #2F2F2F;
+    }
+
+    header {
+      background: #6B3E26;
       color: white;
-      transition: background-color 0.2s;
+      padding: 20px;
+      text-align: center;
     }
-    h1 {
-      margin-top: 50px;
+
+    .container {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      flex-wrap: wrap;
     }
-    .hidden {
-      display: none;
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      width: 250px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
-    .music-option {
-      margin: 10px;
-      padding: 10px 20px;
+
+    button {
+      background: #A63C06;
+      color: white;
       border: none;
-      border-radius: 10px;
-      background: #ff4fa3;
-      color: white;
-      font-size: 18px;
+      padding: 10px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: 0.3s;
     }
-    .music-option:hover {
-      background: #ff82c9;
-    }
-    #emoji {
-      font-size: 50px;
-      margin-top: 30px;
+
+    .kitchen {
+      margin-top: 40px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
     }
   </style>
 </head>
 <body>
-  <h1>Digite seu nome ❤️</h1>
-  <input type="text" id="nomeInput" placeholder="Seu nome...">
-  <button onclick="mostrarMensagem()">Entrar</button>
 
-  <div id="mensagem" class="hidden">
-    <h2 id="bemVinda"></h2>
-    <p>Escolha uma música 🎵</p>
-    <button class="music-option" onclick="tocarMusica('musica1.mp3.mp3')">Música 1</button>
-    <button class="music-option" onclick="tocarMusica('musica2.mp3')">Música 2</button>
-    <button class="music-option" onclick="tocarMusica('musica3.mp3')">Música 3</button>
-    <div id="emoji">💃🕺✨</div>
-  </div>
+<header>
+  <h1>🍽️ Restaurante Pé de Fava</h1>
+  <p>Sabor artesanal e experiência moderna</p>
+</header>
 
-  <audio id="player"></audio>
+<section class="container" id="menu"></section>
 
-  <script>
-    function mostrarMensagem() {
-      const nome = document.getElementById("nomeInput").value;
-      if (nome.trim() === "") return;
-      document.querySelector("h1").classList.add("hidden");
-      document.getElementById("nomeInput").classList.add("hidden");
-      document.querySelector("button").classList.add("hidden");
-      document.getElementById("mensagem").classList.remove("hidden");
-      document.getElementById("bemVinda").innerText = "Bem-vinda " + nome + " 💖";
-    }
+<section style="padding:20px;">
+  <h2>🛒 Finalizar Pedido</h2>
 
-    function tocarMusica(arquivo) {
-      const audio = document.getElementById("player");
-      audio.src = arquivo;
-      audio.play();
+  <input type="number" id="mesa" placeholder="Número da mesa">
 
-      // Piscar de acordo com o ritmo (simulado)
-      let emojis = ["💃", "🕺", "✨", "🎶", "🔥"];
-      let i = 0;
-      setInterval(() => {
-        document.body.style.backgroundColor =
-          document.body.style.backgroundColor === "black" ? "#ff4fa3" : "black";
-        document.getElementById("emoji").innerText = emojis[i % emojis.length];
-        i++;
-      }, 400); // velocidade do "ritmo"
-    }
-  </script>
+  <select id="pagamento">
+    <option>Dinheiro</option>
+    <option>Pix</option>
+    <option>Cartão</option>
+  </select>
+
+  <button onclick="finalizarPedido()">Enviar Pedido</button>
+</section>
+
+<section class="kitchen">
+  <h2>👨‍🍳 Pedidos da Cozinha</h2>
+  <div id="pedidos"></div>
+</section>
+
+<script>
+  const cardapio = [
+    { nome: 'Hambúrguer Artesanal', preco: 28 },
+    { nome: 'X-Bacon Supremo', preco: 32 },
+    { nome: 'Frango Cremoso', preco: 38 },
+    { nome: 'Brownie com Sorvete', preco: 22 }
+  ];
+
+  const carrinho = [];
+
+  const menu = document.getElementById('menu');
+
+  cardapio.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'card';
+
+    div.innerHTML = `
+      <h3>${item.nome}</h3>
+      <p>R$ ${item.preco}</p>
+      <button onclick="adicionar('${item.nome}', ${item.preco})">
+        Adicionar
+      </button>
+    `;
+
+    menu.appendChild(div);
+  });
+
+  function adicionar(nome, preco) {
+    carrinho.push({ nome, preco });
+    alert(nome + ' adicionado ao pedido');
+  }
+
+  function finalizarPedido() {
+    const mesa = document.getElementById('mesa').value;
+    const pagamento = document.getElementById('pagamento').value;
+
+    const pedido = {
+      numero: Math.floor(Math.random() * 9999),
+      mesa,
+      pagamento,
+      itens: carrinho
+    };
+
+    mostrarPedido(pedido);
+  }
+
+  function mostrarPedido(pedido) {
+    const pedidos = document.getElementById('pedidos');
+
+    const div = document.createElement('div');
+    div.className = 'card';
+
+    div.innerHTML = `
+      <h3>Comanda #${pedido.numero}</h3>
+      <p>Mesa: ${pedido.mesa}</p>
+      <p>Pagamento: ${pedido.pagamento}</p>
+      <ul>
+        ${pedido.itens.map(i => `<li>${i.nome}</li>`).join('')}
+      </ul>
+      <button>Finalizar</button>
+    `;
+
+    pedidos.appendChild(div);
+  }
+</script>
+
 </body>
 </html>
